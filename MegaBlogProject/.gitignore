@@ -22,3 +22,52 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Node.js and npm
+node_modules/
+.npm/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.DS_Store
+
+# Build artifacts for both frontend and backend
+build/
+dist/
+public/build/
+
+# Backend (Node.js/Express) build/transpilation output (if applicable)
+backend/dist/
+server/dist/
+
+# Logs
+*.log
+logs/
+
+# Uploads or temporary files
+uploads/
+tmp/
+
+# Jest coverage reports
+coverage/
+
+# MongoDB local data (if running a local DB directly in the project folder)
+# data/db/
+
+# Editor specific files
+.idea/
+*.iml
+*.iws
+*.ipr
+.project
+.classpath
+.settings/
+.cache/
+.history/
+.next/

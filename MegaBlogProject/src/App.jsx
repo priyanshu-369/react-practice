@@ -1,18 +1,41 @@
-import { useState } from 'react'
-
+import React, { useState, useEffect } from 'react'
+import { useDispatch } from "react-redux"
+import authService from "./appwrite/auth.js"
+import {login, logout} from "./store/authSlice.js"
+import {Header, Footer } from "./component/index.js"
+import {Outlet} from "react-router-dom"
 function App() {
+  const [loading, setLoading] = useState(true)
+  const dispatch = useDispatch()
   
-  return (
-    <>
-        <div className='w-full bg-gray-700 py-8'>
-          <div className='w-xl mx-auto bg-gray-200 h-80 rounded-lg flex justify-center items-center px-5 border-white border-2'>
-            <h1 className='text-2xl text-gray-700  font-bold font-serif'>
-              Billa lets build the best project that can be build and deploy it...😎
-            </h1>
+  useEffect(()=>{
+    authService.getCurrentUser()
+    .then((userData)=>{
+      if(userData){
+        dispatch(login({userData}))
+      }else{
+        dispatch(logout())
+      }
+    })
+    .catch((error)=>{
+      console.log("ERROR while logging user .... || ERROR",error)
+    })
+    .finally(()=> setLoading(false))
+  },[])
+
+
+  return !loading ? (
+  <div>
+        <div className='min-h-screen flex flex-wrap content-between bg-gray-400'>
+          <div className='w-full-block '>
+            <Header/>
+            {/* <main>
+              
+            </main> */}
+            <Footer/>
           </div>
         </div>
-    </>
-  )
+  </div>) : null
 }
 
 export default App

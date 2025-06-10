@@ -1,6 +1,8 @@
 import config from "../config/config.js"
 
-import { Client, Account, ID } from "appwrite";
+import { Client, Account, ID 
+    
+} from "appwrite";
 // from the official document
 // const client = new Client()
 //     .setProject(config.appwriteProjectId); // Your project ID

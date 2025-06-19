@@ -27,13 +27,14 @@ function PostForm({post}) {
           appwriteService.deleteFile(post.featuredImage)
         }
 
-        const dbPost = await appwriteService.updatePost(post.$id,{...data, featuredImage: file? file.$id : undefined})
+        const dbPost = await appwriteService.updatePost(post.$id,{...data, featuredImage: file? file.$id : undefined,})
         
         if(dbPost){
           navigate(`/post/${dbPost.$id}`)
         }
     }else{
       const file = await appwriteService.uploadFile(data.image[0])
+      
       if(file){
         const fileId = file.$id
         console.log(`file id ${fileId}`)
@@ -42,6 +43,7 @@ function PostForm({post}) {
           ...data,
           userId: userData.$id
         })
+
         if(dbPost){
           navigate(`/post/${dbPost.$id}`)
         }
@@ -50,16 +52,24 @@ function PostForm({post}) {
     }
     }
 
-    const slugTransform = useCallback((value)=>{
-      if(value && typeof value === 'string'){
-        return value
-        .trim()
-        .toLowerCase()
-        .replace(/^[a-zA-Z\d\s]+/g, '-')
-        .replace(/\s/g,"-")
-      }
-      return ""
-    },[])
+
+
+    const slugTransform = useCallback((value) => {
+  if (value && typeof value === 'string') {
+    return value
+      .trim() // Remove leading/trailing whitespace
+      .toLowerCase() // Convert to lowercase
+      // Replace non-alphanumeric, non-space, non-hyphen characters with an empty string (remove them)
+      .replace(/[^a-z0-9\s-]/g, '')
+      // Replace spaces with a single hyphen
+      .replace(/\s+/g, '-')
+      // Replace multiple hyphens with a single hyphen
+      .replace(/-+/g, '-')
+      // Remove leading or trailing hyphens
+      .replace(/^-+|-+$/g, '');
+  }
+  return "";
+}, []);
 
     React.useEffect(()=>{
       const subscription = watch((value,{name})=>{
@@ -74,6 +84,7 @@ function PostForm({post}) {
         subscription.unsubscribe()
       }
     },[watch, slugTransform, setValue])
+    
   return (
  <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
             <div className="w-2/3 px-2">
@@ -112,6 +123,7 @@ function PostForm({post}) {
                     </div>
                 )}
                 <Select
+                
                     options={["active", "inactive"]}
                     label="Status"
                     className="mb-4"

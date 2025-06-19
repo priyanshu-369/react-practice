@@ -63,7 +63,7 @@ function Signup() {
                     {...register("email",{
                         required:true,
                         validate:{
-                            matchPatern:(value)=> /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/ || "email address must be valid"
+                            matchPatern:(value)=> /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value) || "email address must be valid"
                         }
                     })}/>
                     <Input 
